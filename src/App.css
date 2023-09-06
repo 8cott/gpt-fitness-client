@@ -1,0 +1,188 @@
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  margin: 0 auto;
+  
+}
+ 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+}
+
+.navbar-left {
+  font-size: x-large;
+  flex: 4;
+}
+
+.navbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 200px;
+  background-color: white;
+  border: 1px solid #333;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+  text-align: center;
+  color: black;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-switch-text {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 5px;
+  display: inline-block;
+}
+
+
+.nav-action-btn {
+  max-width: 70%; 
+}
+
+.modal-action-btn {
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="text"], input[type="email"], input[type="password"], button {
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.error-message {
+  color: red;
+  border: 1px solid red;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.form-container {
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+.form-fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.line-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.height-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+.form-select--feet,
+.form-select--inches {
+  flex: 1;
+}
+
+.form-textarea {
+  width: 100%;
+  resize: none;
+}
+
+.form-select {
+  color: black;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* ... [your existing CSS] ... */
+
+/* For tablets and below */
+@media only screen and (max-width: 768px) {
+  .form-container {
+    max-width: 90%;  /* Giving it a bit more width on smaller screens */
+  }
+
+  .line-group {
+    flex-direction: column;  /* Stack the fields vertically */
+    gap: 0.5rem;  /* Reduce the gap for better use of vertical space */
+  }
+  
+  .form-label {
+    margin-bottom: 1rem;  /* Add some spacing between the vertically stacked fields */
+  }
+}
+
+/* For mobile phones and below */
+@media only screen and (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;  /* You can adjust this as needed */
+  }
+  
+  .form-label {
+    margin-bottom: 0.5rem;  /* Reduce the spacing for smaller devices */
+  }
+  
+  .height-container {
+    gap: 0.2rem;  /* Reduce the gap between feet and inches */
+  }
+}
