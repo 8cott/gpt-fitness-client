@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axiosInstance from './AxiosConfig';
 
 const LoginForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
   const handleLoginSubmit = async (e) => {
@@ -8,16 +8,19 @@ const LoginForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
     const password = e.target.password.value;
 
     try {
-      const response = await axios.post('/login', { email, password });
-      if (response.data && response.data.access_token) {
-        setIsLoggedIn(true);
-        setUsername(response.data.username);
-        closeModal();
+        const response = await axiosInstance.post('/login', { email, password });
+        if (response.data && response.data.access_token) {
+          setIsLoggedIn(true);
+          setUsername(response.data.username);
+          localStorage.setItem('username', response.data.username);
+          localStorage.setItem('access_token', response.data.access_token);
+          closeModal();
+        }
+      } catch (error) {
+        setError('Login failed. Please check your email and password.');
+        console.error(error);
       }
-    } catch (error) {
-      setError('Login failed. Please check your email and password.');
-      console.error(error);
-    }
+      
   };
 
   return (
