@@ -154,7 +154,7 @@ input[type="text"], input[type="email"], input[type="password"], button {
   color: #888;
 }
 
-/* ... [your existing CSS] ... */
+
 
 /* For tablets and below */
 @media only screen and (max-width: 768px) {

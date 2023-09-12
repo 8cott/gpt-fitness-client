@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
+import { useAuth } from './AuthContext';
 
 const Form = () => {
+  const { isLoggedIn, username } = useAuth();
   const useFormField = (initialValue) => {
     const [value, setValue] = useState(initialValue);
     const handleChange = (selectedOption) => {

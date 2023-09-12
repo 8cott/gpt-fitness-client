@@ -1,7 +1,9 @@
 import React from 'react';
 import axiosInstance from './AxiosConfig';
+import { useAuth } from './AuthContext';
 
-const LoginForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
+const LoginForm = ({ setError, closeModal }) => {
+  const { setIsLoggedIn, setUsername } = useAuth();
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;

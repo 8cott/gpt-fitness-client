@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AuthModal from './AuthModal';
+import { useAuth } from './AuthContext';
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, setIsLoggedIn, username, setUsername } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [username, setUsername] = useState('');
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -14,7 +14,6 @@ const Navbar = () => {
     localStorage.removeItem('username');
   };
 
-  
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     const storedUsername = localStorage.getItem('username');

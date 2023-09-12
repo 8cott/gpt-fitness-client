@@ -1,14 +1,15 @@
-import Form from './Form'
-import Navbar from './Navbar'
+import Form from './components/Form'
+import Navbar from './components/Navbar'
+import { AuthProvider } from './components/AuthContext'
 import './App.css'
 
-function App() {
+const App = () => {
 
   return (
-    <>
+    <AuthProvider>
       <Navbar />
       <Form />
-    </>
+    </AuthProvider>
   )
 }
 

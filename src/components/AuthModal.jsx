@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+import { useAuth } from './AuthContext';
 
-const AuthModal = ({ setIsLoggedIn, setUsername, closeModal }) => {
+const AuthModal = ({ closeModal }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const { setIsLoggedIn, setUsername } = useAuth();
   const [error, setError] = useState('');
 
   useEffect(() => {
