@@ -41,7 +41,6 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    console.log(`Username is now: ${username}`);
   }, [username]);
 
   return (

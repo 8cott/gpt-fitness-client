@@ -3,9 +3,14 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
+import DisplayPlan from './DisplayPlan';
 
 const Form = () => {
   const { isLoggedIn, username } = useAuth();
+  const [workoutRoutine, setWorkoutRoutine] = useState('');
+  const [workoutSummary, setWorkoutSummary] = useState('');
+  const [dietPlan, setDietPlan] = useState('');
+  const [dietSummary, setDietSummary] = useState('');
   const useFormField = (initialValue) => {
     const [value, setValue] = useState(initialValue);
     const handleChange = (eventOrValue) => {
@@ -87,18 +92,50 @@ const Form = () => {
 
   const dietaryRestrictionsOptions = [
     { value: 'None', label: 'None' },
-    { value: 'dairyFree', label: 'Dairy-free' },
-    { value: 'glutenFree', label: 'Gluten-free' },
-    { value: 'keto', label: 'Keto' },
-    { value: 'lactoseIntolerant', label: 'Lactose intolerant' },
-    { value: 'lowFODMAP', label: 'Low FODMAP' },
-    { value: 'paleo', label: 'Paleo' },
-    { value: 'pescatarian', label: 'Pescatarian' },
-    { value: 'primal', label: 'Primal' },
-    { value: 'vegan', label: 'Vegan' },
-    { value: 'vegetarian', label: 'Vegetarian' },
-    { value: 'whole30', label: 'Whole30' },
+    { value: 'Dairy Free', label: 'Dairy-free' },
+    { value: 'Gluten Free', label: 'Gluten-free' },
+    { value: 'Keto', label: 'Keto' },
+    { value: 'Lactose Intolerant', label: 'Lactose intolerant' },
+    { value: 'Low FODMAP', label: 'Low FODMAP' },
+    { value: 'Paleo', label: 'Paleo' },
+    { value: 'Pescatarian', label: 'Pescatarian' },
+    { value: 'Primal', label: 'Primal' },
+    { value: 'Vegan', label: 'Vegan' },
+    { value: 'Vegetarian', label: 'Vegetarian' },
+    { value: 'Whole30', label: 'Whole30' },
   ];
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const formData = {
+      user_id: username,
+      age,
+      sex,
+      weight,
+      feet,
+      inches,
+      goals,
+      days_per_week: daysPerWeek,
+      dietary_restrictions: dietaryRestrictions,
+    };
+
+    axiosInstance
+      .post('/generate_plan', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        setWorkoutRoutine(response.data.workout_routine);
+        setWorkoutSummary(response.data.workout_summary);
+        setDietPlan(response.data.diet_plan);
+        setDietSummary(response.data.diet_summary);
+      })
+      .catch((error) => {
+        console.error('Error generating plan:', error);
+      });
+  };
 
   return (
     <>
@@ -218,10 +255,16 @@ const Form = () => {
             </label>
           </div>
         </fieldset>
-        <button className='form-btn' type='submit'>
+        <button className='form-btn' type='submit' onClick={handleSubmit}>
           Submit
         </button>
       </div>
+      <DisplayPlan
+        workoutRoutine={workoutRoutine}
+        workoutSummary={workoutSummary}
+        dietPlan={dietPlan}
+        dietSummary={dietSummary}
+      />
     </>
   );
 };
