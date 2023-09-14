@@ -145,11 +145,11 @@ input[type="text"], input[type="email"], input[type="password"], button {
   text-align: center;
 }
 
-.plan-body {}
+/* .plan-body {}
 
 .plan-summary {}
 
-.plan-routine {}
+.plan-routine {} */
 
 
 @keyframes logo-spin {
