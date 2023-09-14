@@ -86,7 +86,7 @@ input[type="text"], input[type="email"], input[type="password"], button {
 }
 
 .form-container {
-  max-width: 60%;
+  max-width: 70%;
   margin: 0 auto;
 }
 
@@ -130,6 +130,27 @@ input[type="text"], input[type="email"], input[type="password"], button {
 .form-select {
   color: black;
 }
+
+.plan-container {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem auto;
+  max-width: 70%;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.plan-header {
+  text-align: center;
+}
+
+.plan-body {}
+
+.plan-summary {}
+
+.plan-routine {}
+
 
 @keyframes logo-spin {
   from {

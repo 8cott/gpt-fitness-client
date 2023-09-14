@@ -128,9 +128,13 @@ const Form = () => {
       })
       .then((response) => {
         setWorkoutRoutine(response.data.workout_routine);
+        console.log(response.data.workout_routine);
         setWorkoutSummary(response.data.workout_summary);
+        console.log(response.data.workout_summary);
         setDietPlan(response.data.diet_plan);
+        console.log(response.data.diet_plan);
         setDietSummary(response.data.diet_summary);
+        console.log(response.data.diet_summary);
       })
       .catch((error) => {
         console.error('Error generating plan:', error);
@@ -259,12 +263,14 @@ const Form = () => {
           Submit
         </button>
       </div>
-      <DisplayPlan
-        workoutRoutine={workoutRoutine}
-        workoutSummary={workoutSummary}
-        dietPlan={dietPlan}
-        dietSummary={dietSummary}
-      />
+      {workoutRoutine && workoutSummary && dietPlan && dietSummary && (
+        <DisplayPlan
+          workoutRoutine={workoutRoutine}
+          workoutSummary={workoutSummary}
+          dietPlan={dietPlan}
+          dietSummary={dietSummary}
+        />
+      )}
     </>
   );
 };
