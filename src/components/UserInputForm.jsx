@@ -5,7 +5,7 @@ import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
 import DisplayPlan from './DisplayPlan';
 
-const Form = () => {
+const UserInputForm = () => {
   const { isLoggedIn, username } = useAuth();
   const [workoutRoutine, setWorkoutRoutine] = useState('');
   const [workoutSummary, setWorkoutSummary] = useState('');
@@ -275,4 +275,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default UserInputForm;
