@@ -19,7 +19,7 @@ const DisplayPlan = ({
       username: username,
       workout_routine: workoutRoutine,
       workout_summary: workoutSummary,
-      diet_plan: dietPlan,
+      diet_plan: dietPlan, 
       diet_summary: dietSummary,
     };
 
