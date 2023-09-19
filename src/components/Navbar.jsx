@@ -3,45 +3,62 @@ import AuthModal from './AuthModal';
 import { useAuth } from './AuthContext';
 
 const Navbar = () => {
-  const { isLoggedIn, setIsLoggedIn, username, setUsername } = useAuth();
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    username,
+    setUsername,
+    userId,
+    setUserId,
+  } = useAuth();
+
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUsername('');
+    setUserId(null);
     localStorage.removeItem('access_token');
     localStorage.removeItem('username');
+    localStorage.removeItem('user_id');
+    console.log("logged out");
   };
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     const storedUsername = localStorage.getItem('username');
+    const storedUserId = localStorage.getItem('user_id');
     if (token && storedUsername) {
       setIsLoggedIn(true);
       setUsername(storedUsername);
+      setUserId(storedUserId);
     } else {
       setIsLoggedIn(false);
       setUsername('');
+      setUserId(null);
     }
+
+    return () => {
+    };
   }, []);
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (e.target.className !== 'nav-action-btn' && !e.target.closest('.modal')) {
+      if (
+        e.target.className !== 'nav-action-btn' &&
+        !e.target.closest('.modal')
+      ) {
         setShowLogoutModal(false);
       }
     };
-  
+
     document.addEventListener('click', handleOutsideClick);
-  
+
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
   }, []);
-
-  useEffect(() => {
-  }, [username]);
 
   return (
     <div className='navbar'>

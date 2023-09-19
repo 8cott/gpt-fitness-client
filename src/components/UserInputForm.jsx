@@ -6,7 +6,7 @@ import axiosInstance from './AxiosConfig';
 import DisplayPlan from './DisplayPlan';
 
 const UserInputForm = () => {
-  const { isLoggedIn, username } = useAuth();
+  const { isLoggedIn, userId } = useAuth();
   const [workoutRoutine, setWorkoutRoutine] = useState('');
   const [workoutSummary, setWorkoutSummary] = useState('');
   const [dietPlan, setDietPlan] = useState('');
@@ -30,9 +30,9 @@ const UserInputForm = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn && username) {
+    if (isLoggedIn && userId) {
       axiosInstance
-        .get(`/users/${username}`)
+        .get(`/users/${userId}`)
         .then((response) => {
           const userData = response.data;
           setFormData({
@@ -50,9 +50,8 @@ const UserInputForm = () => {
           console.error('Error fetching user data:', error);
         });
     }
-  }, [isLoggedIn, username]);
+  }, [isLoggedIn, userId]);
 
-  // Options for selects
   const sexOptions = [
     { value: 'Female', label: 'Female' },
     { value: 'Male', label: 'Male' },
@@ -105,7 +104,7 @@ const UserInputForm = () => {
     event.preventDefault();
 
     const payload = {
-      user_id: username,
+      user_id: userId,
       ...formData,
     };
 
@@ -120,6 +119,19 @@ const UserInputForm = () => {
         setWorkoutSummary(response.data.workout_summary);
         setDietPlan(response.data.diet_plan);
         setDietSummary(response.data.diet_summary);
+
+        return axiosInstance
+          .put(`/users/${userId}`, formData, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .then((response) => {
+            console.log('User updated successfully:', response.data.message);
+          })
+          .catch((error) => {
+            console.error('Error updating user:', error);
+          });
       })
       .catch((error) => {
         console.error('Error generating plan:', error);
@@ -140,7 +152,9 @@ const UserInputForm = () => {
                   options={sexOptions}
                   placeholder='-- Select --'
                   onChange={(option) => handleInputChange('sex', option.value)}
-                  value={sexOptions.find((option) => option.value === formData.sex)}
+                  value={sexOptions.find(
+                    (option) => option.value === formData.sex
+                  )}
                   required
                 />
               </label>
@@ -153,35 +167,44 @@ const UserInputForm = () => {
                   options={ageOptions}
                   placeholder='-- Select --'
                   onChange={(option) => handleInputChange('age', option.value)}
-                  value={ageOptions.find((option) => option.value === formData.age)}
+                  value={ageOptions.find(
+                    (option) => option.value === formData.age
+                  )}
                   required
                 />
               </label>
 
               <label className='form-label'>
-                Feet
-                <Select
-                  className='form-select'
-                  name='feet'
-                  options={feetOptions}
-                  placeholder='-- Select --'
-                  onChange={(option) => handleInputChange('feet', option.value)}
-                  value={feetOptions.find((option) => option.value === formData.feet)}
-                  required
-                />
-              </label>
+                Height
+                <div className='height-container'>
+                  <Select
+                    className='form-select'
+                    name='feet'
+                    options={feetOptions}
+                    placeholder='-- Select --'
+                    onChange={(option) =>
+                      handleInputChange('feet', option.value)
+                    }
+                    value={feetOptions.find(
+                      (option) => option.value === formData.feet
+                    )}
+                    required
+                  />
 
-              <label className='form-label'>
-                Inches
-                <Select
-                  className='form-select'
-                  name='inches'
-                  options={inchesOptions}
-                  placeholder='-- Select --'
-                  onChange={(option) => handleInputChange('inches', option.value)}
-                  value={inchesOptions.find((option) => option.value === formData.inches)}
-                  required
-                />
+                  <Select
+                    className='form-select'
+                    name='inches'
+                    options={inchesOptions}
+                    placeholder='-- Select --'
+                    onChange={(option) =>
+                      handleInputChange('inches', option.value)
+                    }
+                    value={inchesOptions.find(
+                      (option) => option.value === formData.inches
+                    )}
+                    required
+                  />
+                </div>
               </label>
 
               <label className='form-label'>
@@ -191,8 +214,12 @@ const UserInputForm = () => {
                   name='weight'
                   options={weightOptions}
                   placeholder='-- Select --'
-                  onChange={(option) => handleInputChange('weight', option.value)}
-                  value={weightOptions.find((option) => option.value === formData.weight)}
+                  onChange={(option) =>
+                    handleInputChange('weight', option.value)
+                  }
+                  value={weightOptions.find(
+                    (option) => option.value === formData.weight
+                  )}
                   required
                 />
               </label>
@@ -204,8 +231,12 @@ const UserInputForm = () => {
                   name='days_per_week'
                   options={days_per_weekOptions}
                   placeholder='-- Select --'
-                  onChange={(option) => handleInputChange('days_per_week', option.value)}
-                  value={days_per_weekOptions.find((option) => option.value === formData.days_per_week)}
+                  onChange={(option) =>
+                    handleInputChange('days_per_week', option.value)
+                  }
+                  value={days_per_weekOptions.find(
+                    (option) => option.value === formData.days_per_week
+                  )}
                   required
                 />
               </label>
@@ -217,8 +248,12 @@ const UserInputForm = () => {
                   name='dietary_restrictions'
                   options={dietary_restrictionsOptions}
                   placeholder='-- Select or Create --'
-                  onChange={(option) => handleInputChange('dietary_restrictions', option.value)}
-                  value={dietary_restrictionsOptions.find((option) => option.value === formData.dietary_restrictions)}
+                  onChange={(option) =>
+                    handleInputChange('dietary_restrictions', option.value)
+                  }
+                  value={dietary_restrictionsOptions.find(
+                    (option) => option.value === formData.dietary_restrictions
+                  )}
                   required
                 />
               </label>

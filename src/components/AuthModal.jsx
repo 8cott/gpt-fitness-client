@@ -5,7 +5,7 @@ import { useAuth } from './AuthContext';
 
 const AuthModal = ({ closeModal }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const { setIsLoggedIn, setUsername } = useAuth();
+  const { setIsLoggedIn, setUsername, setUserId } = useAuth();
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const AuthModal = ({ closeModal }) => {
       {error && <div className='error-message'>{error}</div>}
       {isLoginMode ? (
         <>
-          <LoginForm setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} setError={setError} closeModal={closeModal} />
+          <LoginForm setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} setUserId={setUserId} setError={setError} closeModal={closeModal} />
           <button
             className='switch-btn'
             onClick={() => setIsLoginMode(false)}

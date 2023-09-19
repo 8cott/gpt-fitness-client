@@ -41,23 +41,27 @@ const SignupForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
     }
 
     try {
-        const response = await axiosInstance.post('/users', {
-          email,
-          username,
-          password,
-        });
-        if (response.data.message) {
-          console.log(response.data.message);
-          setIsLoggedIn(true);
-          closeModal();
-          setUsername(username);
-          resetError();
-          localStorage.setItem('access_token', response.data.access_token);
-          localStorage.setItem('username', username);
-        }
-      } catch (error) {
-        setError(error.response?.data?.error?.message || 'An unexpected error occurred.');
-      }      
+      const response = await axiosInstance.post('/users', {
+        email,
+        username,
+        password,
+      });
+      if (response.data.message) {
+        setIsLoggedIn(true);
+        closeModal();
+        setUsername(response.data.username);
+        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('username', response.data.username);
+        localStorage.setItem('user_id', response.data.userId);
+
+        console.log(`User logged in as: ${response.data.username}`);
+        console.log(`Token: ${response.data.access_token}`);
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.error?.message || 'An unexpected error occurred.'
+      );
+    }
   };
 
   return (

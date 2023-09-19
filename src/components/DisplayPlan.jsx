@@ -7,7 +7,7 @@ const DisplayPlan = ({
   dietPlan,
   dietSummary,
 }) => {
-  const { isLoggedIn, username } = useAuth();  
+  const { isLoggedIn, userId } = useAuth();  
 
   const handleSavePlan = () => {
     if (!isLoggedIn) {
@@ -16,7 +16,7 @@ const DisplayPlan = ({
     }
 
     const planData = {
-      username: username,
+      user_id: userId,
       workout_routine: workoutRoutine,
       workout_summary: workoutSummary,
       diet_plan: dietPlan, 
