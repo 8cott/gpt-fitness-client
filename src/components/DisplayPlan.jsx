@@ -7,7 +7,7 @@ const DisplayPlan = ({
   dietPlan,
   dietSummary,
 }) => {
-  const { isLoggedIn, userId } = useAuth();  
+  const { isLoggedIn, userId } = useAuth();
 
   const handleSavePlan = () => {
     if (!isLoggedIn) {
@@ -19,7 +19,7 @@ const DisplayPlan = ({
       user_id: userId,
       workout_routine: workoutRoutine,
       workout_summary: workoutSummary,
-      diet_plan: dietPlan, 
+      diet_plan: dietPlan,
       diet_summary: dietSummary,
     };
 
@@ -38,17 +38,16 @@ const DisplayPlan = ({
       });
   };
 
-const formatTextWithDashes = (text) => {
-  const lines = text.split('\n');
-  const formattedLines = lines.map((line, index) => {
-    if (line.trim().startsWith('-')) {
-      return <li key={`bullet-${index}`}>{line.trim().substring(1)}</li>;
-    }
-    return <p key={`paragraph-${index}`}>{line}</p>;
-  });
-  return formattedLines;
-};
-
+  const formatTextWithDashes = (text) => {
+    const lines = text.split('\n');
+    const formattedLines = lines.map((line, index) => {
+      if (line.trim().startsWith('-')) {
+        return <li key={`bullet-${index}`}>{line.trim().substring(1)}</li>;
+      }
+      return <p key={`paragraph-${index}`}>{line}</p>;
+    });
+    return formattedLines;
+  };
 
   return (
     <div className='plan-container'>

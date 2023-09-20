@@ -53,8 +53,8 @@ const UserInputForm = () => {
   }, [isLoggedIn, userId]);
 
   const sexOptions = [
-    { value: 'Female', label: 'Female' },
-    { value: 'Male', label: 'Male' },
+    { value: 'F', label: 'F' },
+    { value: 'M', label: 'M' },
   ];
 
   const ageOptions = [];
@@ -64,12 +64,12 @@ const UserInputForm = () => {
 
   const feetOptions = [];
   for (let feet = 3; feet <= 7; feet++) {
-    feetOptions.push({ value: feet, label: feet.toString() });
+    feetOptions.push({ value: feet, label: feet.toString() + "'" });
   }
 
   const inchesOptions = [];
   for (let inches = 0; inches <= 11; inches++) {
-    inchesOptions.push({ value: inches, label: inches.toString() });
+    inchesOptions.push({ value: inches, label: inches.toString() + '"' });
   }
 
   const weightOptions = [];
@@ -143,126 +143,124 @@ const UserInputForm = () => {
       <div className='form-container'>
         <form onSubmit={handleSubmit}>
           <fieldset className='form-fieldset'>
-            <div className='line-group'>
-              <label className='form-label'>
-                Sex
-                <Select
-                  className='form-select'
-                  name='sex'
-                  options={sexOptions}
-                  placeholder='-- Select --'
-                  onChange={(option) => handleInputChange('sex', option.value)}
-                  value={sexOptions.find(
-                    (option) => option.value === formData.sex
-                  )}
-                  required
-                />
-              </label>
-
-              <label className='form-label'>
-                Age
-                <Select
-                  className='form-select'
-                  name='age'
-                  options={ageOptions}
-                  placeholder='-- Select --'
-                  onChange={(option) => handleInputChange('age', option.value)}
-                  value={ageOptions.find(
-                    (option) => option.value === formData.age
-                  )}
-                  required
-                />
-              </label>
-
-              <label className='form-label'>
-                Height
-                <div className='height-container'>
+            <div className='form-row'>
+              <div className='form-elements-container'>
+                <label className='form-label'>
+                  Sex
                   <Select
-                    className='form-select'
-                    name='feet'
-                    options={feetOptions}
-                    placeholder='-- Select --'
+                    className='form-select sex'
+                    name='sex'
+                    options={sexOptions}
                     onChange={(option) =>
-                      handleInputChange('feet', option.value)
+                      handleInputChange('sex', option.value)
                     }
-                    value={feetOptions.find(
-                      (option) => option.value === formData.feet
+                    value={sexOptions.find(
+                      (option) => option.value === formData.sex
                     )}
                     required
                   />
+                </label>
 
+                <label className='form-label'>
+                  Age
                   <Select
-                    className='form-select'
-                    name='inches'
-                    options={inchesOptions}
-                    placeholder='-- Select --'
+                    className='form-select age'
+                    name='age'
+                    options={ageOptions}
                     onChange={(option) =>
-                      handleInputChange('inches', option.value)
+                      handleInputChange('age', option.value)
                     }
-                    value={inchesOptions.find(
-                      (option) => option.value === formData.inches
+                    value={ageOptions.find(
+                      (option) => option.value === formData.age
                     )}
                     required
                   />
-                </div>
-              </label>
+                </label>
 
-              <label className='form-label'>
-                Weight (lbs)
-                <Select
-                  className='form-select'
-                  name='weight'
-                  options={weightOptions}
-                  placeholder='-- Select --'
-                  onChange={(option) =>
-                    handleInputChange('weight', option.value)
-                  }
-                  value={weightOptions.find(
-                    (option) => option.value === formData.weight
-                  )}
-                  required
-                />
-              </label>
+                <label className='form-label'>
+                  Height
+                  <div className='height-container'>
+                    <Select
+                      className='form-select feet'
+                      name='feet'
+                      options={feetOptions}
+                      onChange={(option) =>
+                        handleInputChange('feet', option.value)
+                      }
+                      value={feetOptions.find(
+                        (option) => option.value === formData.feet
+                      )}
+                      required
+                    />
 
-              <label className='form-label'>
-                Days Per Week
-                <Select
-                  className='form-select'
-                  name='days_per_week'
-                  options={days_per_weekOptions}
-                  placeholder='-- Select --'
-                  onChange={(option) =>
-                    handleInputChange('days_per_week', option.value)
-                  }
-                  value={days_per_weekOptions.find(
-                    (option) => option.value === formData.days_per_week
-                  )}
-                  required
-                />
-              </label>
+                    <Select
+                      className='form-select inches'
+                      name='inches'
+                      options={inchesOptions}
+                      onChange={(option) =>
+                        handleInputChange('inches', option.value)
+                      }
+                      value={inchesOptions.find(
+                        (option) => option.value === formData.inches
+                      )}
+                      required
+                    />
+                  </div>
+                </label>
 
-              <label className='form-label'>
-                Dietary Restrictions
-                <CreatableSelect
-                  className='form-select'
-                  name='dietary_restrictions'
-                  options={dietary_restrictionsOptions}
-                  placeholder='-- Select or Create --'
-                  onChange={(option) =>
-                    handleInputChange('dietary_restrictions', option.value)
-                  }
-                  value={dietary_restrictionsOptions.find(
-                    (option) => option.value === formData.dietary_restrictions
-                  )}
-                  required
-                />
-              </label>
+                <label className='form-label'>
+                  Weight (lbs)
+                  <Select
+                    className='form-select weight'
+                    name='weight'
+                    options={weightOptions}
+                    onChange={(option) =>
+                      handleInputChange('weight', option.value)
+                    }
+                    value={weightOptions.find(
+                      (option) => option.value === formData.weight
+                    )}
+                    required
+                  />
+                </label>
+                <label className='form-label'>
+                  Workout Days Per Week
+                  <Select
+                    className='form-select days'
+                    name='days_per_week'
+                    options={days_per_weekOptions}
+                    onChange={(option) =>
+                      handleInputChange('days_per_week', option.value)
+                    }
+                    value={days_per_weekOptions.find(
+                      (option) => option.value === formData.days_per_week
+                    )}
+                    required
+                  />
+                </label>
 
-              <label className='form-label'>
+                <label className='form-label'>
+                  Dietary Restrictions
+                  <CreatableSelect
+                    className='form-select diet'
+                    name='dietary_restrictions'
+                    options={dietary_restrictionsOptions}
+                    onChange={(option) =>
+                      handleInputChange('dietary_restrictions', option.value)
+                    }
+                    value={dietary_restrictionsOptions.find(
+                      (option) => option.value === formData.dietary_restrictions
+                    )}
+                    required
+                  />
+                </label>
+              </div>
+              <label className='form-label stretch full-width'>
                 Goals
                 <textarea
                   name='goals'
-                  placeholder='Describe your fitness goals...'
+                  className='form-input goals'
+                  placeholder='Example: Lose 10 lbs, gain muscle, etc.'
                   onChange={(e) => handleInputChange('goals', e.target.value)}
                   value={formData.goals}
                   required
