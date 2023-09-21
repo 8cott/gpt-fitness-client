@@ -91,6 +91,9 @@ const Navbar = () => {
             </button>
             {showLogoutModal && (
               <div className='modal'>
+                <button className='modal-btn'><Link to="/saved-plans">
+                  Saved Plans</Link>
+                </button>
                 <button className='modal-btn' onClick={handleLogout}>
                   Logout
                 </button>

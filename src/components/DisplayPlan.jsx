@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
 
@@ -8,10 +9,21 @@ const DisplayPlan = ({
   dietSummary,
 }) => {
   const { isLoggedIn, userId } = useAuth();
+  const [planName, setPlanName] = useState('');
+  const [isEnteringName, setIsEnteringName] = useState(false);
+
+  const handleEnterName = () => {
+    setIsEnteringName(true);
+  };
 
   const handleSavePlan = () => {
     if (!isLoggedIn) {
       alert('Please login to save your plan');
+      return;
+    }
+
+    if (!planName) {
+      alert('Please enter a plan name before saving');
       return;
     }
 
@@ -21,6 +33,7 @@ const DisplayPlan = ({
       workout_summary: workoutSummary,
       diet_plan: dietPlan,
       diet_summary: dietSummary,
+      plan_name: planName,
     };
 
     axiosInstance
@@ -67,9 +80,23 @@ const DisplayPlan = ({
         <h3 className='plan-header'>Diet Plan</h3>
         <ul className='plan-body routine'>{formatTextWithDashes(dietPlan)}</ul>
       </div>
-      <button className='save-plan-btn' onClick={handleSavePlan}>
-        Save Plan
-      </button>
+      {isEnteringName ? (
+        <div>
+          <input
+            type="text"
+            placeholder="Enter Plan Name"
+            value={planName}
+            onChange={(e) => setPlanName(e.target.value)}
+          />
+          <button className='save-plan-btn' onClick={handleSavePlan}>
+            Save Plan
+          </button>
+        </div>
+      ) : (
+        <button className='save-plan-btn' onClick={handleEnterName}>
+          Save Plan
+        </button>
+      )}
     </div>
   );
 };

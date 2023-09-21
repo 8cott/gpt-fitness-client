@@ -86,7 +86,12 @@
   display: block;
   text-align: center;
   background-color: var(--gunmetal);
-  color: var(--q);
+  color: var(--white-smoke);
+}
+
+.modal-btn a {
+  text-decoration: none;
+  color: inherit;
 }
 
 input[type='text'],
@@ -115,6 +120,15 @@ input[type='password'] {
   color: var(--gunmetal);
   border: 0.0625rem solid var(--gunmetal);
 }
+.generate-btn:hover {
+  background-color: var(--gunmetal);
+  color: var(--aquamarine);
+  border-color: var(--aquamarine);
+}
+.generate-btn:focus,
+.generate-btn:focus-visible {
+  border-color: var(--aquamarine);
+}
 
 .save-plan-btn {
   padding: 0.5rem 0 0.5rem 0;
@@ -127,6 +141,15 @@ input[type='password'] {
   background-color: var(--gunmetal);
   color: var(--aquamarine);
   border: 0.0625rem solid var(--aquamarine);
+}
+.save-plan-btn:hover {
+  background-color: var(--aquamarine);
+  color: var(--gunmetal);
+  border-color: var(--gunmetal);
+}
+.save-plan-btn:focus,
+.save-plan-btn:focus-visible {
+  outline-color: var(--gunmetal); 
 }
 
 .error-message {
@@ -251,7 +274,6 @@ input[type='password'] {
   box-shadow: 0 0 0 1px var(--teal) !important;
 }
 
-
 .full-width {
   width: 100%;
   margin-top: 1rem;
@@ -271,13 +293,9 @@ input[type='password'] {
   text-align: center;
 }
 
-
-
 .summary, .routine {
   padding-bottom: 2rem;
 }
-
-
 
 .loader-container {
   display: flex;
@@ -289,6 +307,11 @@ input[type='password'] {
 
 .loader {
   font-size: xx-large;
+}
+
+.select-plan-label {
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 @media only screen and (max-width: 768px) {
