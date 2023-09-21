@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AuthModal from './AuthModal';
 import { useAuth } from './AuthContext';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const {
@@ -62,7 +63,7 @@ const Navbar = () => {
 
   return (
     <div className='navbar'>
-      <div className='navbar-left'>GPT Fitness</div>
+      <div className='navbar-left'><Link to="/" className='gpt-fitness'>GPT Fitness</Link></div>
       <div className='navbar-right'>
         {!isLoggedIn ? (
           <>
@@ -84,14 +85,13 @@ const Navbar = () => {
           <>
             <button
               className='nav-action-btn'
-              onClick={() => setShowLogoutModal(true)}
+              onClick={() => setShowLogoutModal(prevState => !prevState)}
             >
               {username || 'Unnamed User'}{' '}
-              {/* Display 'Unnamed User' if username is empty */}
             </button>
             {showLogoutModal && (
               <div className='modal'>
-                <button className='modal-action-btn' onClick={handleLogout}>
+                <button className='modal-btn' onClick={handleLogout}>
                   Logout
                 </button>
               </div>

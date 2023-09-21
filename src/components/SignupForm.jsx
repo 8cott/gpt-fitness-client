@@ -1,8 +1,11 @@
 import React from 'react';
 import axiosInstance from './AxiosConfig';
 import validator from 'validator';
+import { useAuth } from './AuthContext';
 
-const SignupForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
+const SignupForm = ({ setError, closeModal }) => {
+  const { setIsLoggedIn, setUsername, setUserId } = useAuth();
+
   const validateSignup = (username, email, password, confirmPassword) => {
     if (!username || username.length < 4) {
       return 'Username should be at least 4 characters long.';
@@ -19,10 +22,6 @@ const SignupForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
     return null;
   };
 
-  const resetError = () => {
-    setError('');
-  };
-
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -35,6 +34,7 @@ const SignupForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
       password,
       confirmPassword
     );
+
     if (validationError) {
       setError(validationError);
       return;
@@ -46,16 +46,18 @@ const SignupForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
         username,
         password,
       });
-      if (response.data.message) {
+      if (response.data.access_token) {
+        const { access_token, user_id, username } = response.data;
         setIsLoggedIn(true);
         closeModal();
-        setUsername(response.data.username);
-        localStorage.setItem('access_token', response.data.access_token);
-        localStorage.setItem('username', response.data.username);
-        localStorage.setItem('user_id', response.data.userId);
+        setUsername(username);
+        setUserId(user_id);
+        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('username', username);
+        localStorage.setItem('user_id', user_id);
 
-        console.log(`User logged in as: ${response.data.username}`);
-        console.log(`Token: ${response.data.access_token}`);
+        console.log(`User logged in as: ${username}`);
+        console.log(`Token: ${access_token}`);
       }
     } catch (error) {
       setError(
@@ -81,8 +83,10 @@ const SignupForm = ({ setIsLoggedIn, setUsername, setError, closeModal }) => {
           name='confirmPassword'
           placeholder='Confirm Password'
           required
-        />{' '}
-        <button type='submit'>Signup</button>
+        />
+        <button type='submit' className='modal-btn'>
+          Signup
+        </button>
       </form>
     </>
   );

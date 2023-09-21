@@ -10,13 +10,16 @@ const AuthModal = ({ closeModal }) => {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (e.target.className !== 'nav-action-btn' && !e.target.closest('.modal')) {
+      if (
+        e.target.className !== 'nav-action-btn' &&
+        !e.target.closest('.modal')
+      ) {
         closeModal();
       }
     };
-  
+
     document.addEventListener('click', handleOutsideClick);
-  
+
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
@@ -27,21 +30,27 @@ const AuthModal = ({ closeModal }) => {
       {error && <div className='error-message'>{error}</div>}
       {isLoginMode ? (
         <>
-          <LoginForm setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} setUserId={setUserId} setError={setError} closeModal={closeModal} />
-          <button
-            className='switch-btn'
-            onClick={() => setIsLoginMode(false)}
-          >
+          <LoginForm
+            setIsLoggedIn={setIsLoggedIn}
+            setUsername={setUsername}
+            setUserId={setUserId}
+            setError={setError}
+            closeModal={closeModal}
+          />
+          <button className='modal-btn' onClick={() => setIsLoginMode(false)}>
             Switch to Signup
           </button>
         </>
       ) : (
         <>
-          <SignupForm setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} setError={setError} closeModal={closeModal} />
-          <button
-            className='switch-btn'
-            onClick={() => setIsLoginMode(true)}
-          >
+          <SignupForm
+            setIsLoggedIn={setIsLoggedIn}
+            setUsername={setUsername}
+            setUserId={setUserId}
+            setError={setError}
+            closeModal={closeModal}
+          />
+          <button className='modal-btn' onClick={() => setIsLoginMode(true)}>
             Switch to Login
           </button>
         </>

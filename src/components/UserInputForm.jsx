@@ -4,6 +4,7 @@ import CreatableSelect from 'react-select/creatable';
 import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
 import DisplayPlan from './DisplayPlan';
+import Loader from './Loader';
 
 const UserInputForm = () => {
   const { isLoggedIn, userId } = useAuth();
@@ -11,6 +12,7 @@ const UserInputForm = () => {
   const [workoutSummary, setWorkoutSummary] = useState('');
   const [dietPlan, setDietPlan] = useState('');
   const [dietSummary, setDietSummary] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const defaultFormState = {
     sex: '',
@@ -103,6 +105,8 @@ const UserInputForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    setIsLoading(true);
+
     const payload = {
       user_id: userId,
       ...formData,
@@ -128,13 +132,16 @@ const UserInputForm = () => {
           })
           .then((response) => {
             console.log('User updated successfully:', response.data.message);
+            setIsLoading(false);
           })
           .catch((error) => {
             console.error('Error updating user:', error);
+            setIsLoading(false);
           });
       })
       .catch((error) => {
         console.error('Error generating plan:', error);
+        setIsLoading(false);
       });
   };
 
@@ -149,6 +156,7 @@ const UserInputForm = () => {
                   Sex
                   <Select
                     className='form-select sex'
+                    classNamePrefix="react-select"
                     name='sex'
                     options={sexOptions}
                     onChange={(option) =>
@@ -165,6 +173,7 @@ const UserInputForm = () => {
                   Age
                   <Select
                     className='form-select age'
+                    classNamePrefix="react-select"
                     name='age'
                     options={ageOptions}
                     onChange={(option) =>
@@ -182,6 +191,7 @@ const UserInputForm = () => {
                   <div className='height-container'>
                     <Select
                       className='form-select feet'
+                      classNamePrefix="react-select"
                       name='feet'
                       options={feetOptions}
                       onChange={(option) =>
@@ -195,6 +205,7 @@ const UserInputForm = () => {
 
                     <Select
                       className='form-select inches'
+                      classNamePrefix="react-select"
                       name='inches'
                       options={inchesOptions}
                       onChange={(option) =>
@@ -212,6 +223,7 @@ const UserInputForm = () => {
                   Weight (lbs)
                   <Select
                     className='form-select weight'
+                    classNamePrefix="react-select"
                     name='weight'
                     options={weightOptions}
                     onChange={(option) =>
@@ -227,6 +239,7 @@ const UserInputForm = () => {
                   Workout Days Per Week
                   <Select
                     className='form-select days'
+                    classNamePrefix="react-select"
                     name='days_per_week'
                     options={days_per_weekOptions}
                     onChange={(option) =>
@@ -243,6 +256,7 @@ const UserInputForm = () => {
                   Dietary Restrictions
                   <CreatableSelect
                     className='form-select diet'
+                    classNamePrefix="react-select"
                     name='dietary_restrictions'
                     options={dietary_restrictionsOptions}
                     onChange={(option) =>
@@ -268,18 +282,28 @@ const UserInputForm = () => {
               </label>
             </div>
           </fieldset>
-          <button className='form-btn' type='submit'>
+          <button className='form-btn generate-btn' type='submit'>
             Submit
           </button>
         </form>
       </div>
-      {workoutRoutine && workoutSummary && dietPlan && dietSummary && (
-        <DisplayPlan
-          workoutRoutine={workoutRoutine}
-          workoutSummary={workoutSummary}
-          dietPlan={dietPlan}
-          dietSummary={dietSummary}
-        />
+
+      {isLoading ? (
+        <div className='loader-container'>
+          <Loader />
+        </div>
+      ) : (
+        workoutRoutine &&
+        workoutSummary &&
+        dietPlan &&
+        dietSummary && (
+          <DisplayPlan
+            workoutRoutine={workoutRoutine}
+            workoutSummary={workoutSummary}
+            dietPlan={dietPlan}
+            dietSummary={dietSummary}
+          />
+        )
       )}
     </>
   );

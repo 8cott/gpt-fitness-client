@@ -43,7 +43,7 @@ const LoginForm = ({ setError, closeModal }) => {
           placeholder='Password'
           required
         />
-        <button type='submit'>Login</button>
+        <button type='submit' className='modal-btn'>Login</button>
       </form>
     </>
   );
