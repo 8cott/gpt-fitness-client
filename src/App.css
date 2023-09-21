@@ -117,14 +117,16 @@ input[type='password'] {
 }
 
 .save-plan-btn {
-  padding: 1rem;
-  width: 25%;
+  padding: 0.5rem 0 0.5rem 0;
+  width: 15%;
   margin: 0 auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   box-sizing: border-box;
   display: block;
   background-color: var(--gunmetal);
   color: var(--aquamarine);
-  border: 0.0625rem solid var(--gunmetal);
+  border: 0.0625rem solid var(--aquamarine);
 }
 
 .error-message {

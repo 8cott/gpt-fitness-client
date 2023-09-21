@@ -185,39 +185,43 @@ const UserInputForm = () => {
                     required
                   />
                 </label>
+                      
+                <div className='form-label'>
+    <label htmlFor='feet'>Height (ft)</label>
+    <Select
+        id='feet'
+        className='form-select feet'
+        classNamePrefix="react-select"
+        name='feet'
+        options={feetOptions}
+        onChange={(option) =>
+            handleInputChange('feet', option.value)
+        }
+        value={feetOptions.find(
+            (option) => option.value === formData.feet
+        )}
+        required
+    />
+</div>
 
-                <label className='form-label'>
-                  Height
-                  <div className='height-container'>
-                    <Select
-                      className='form-select feet'
-                      classNamePrefix="react-select"
-                      name='feet'
-                      options={feetOptions}
-                      onChange={(option) =>
-                        handleInputChange('feet', option.value)
-                      }
-                      value={feetOptions.find(
-                        (option) => option.value === formData.feet
-                      )}
-                      required
-                    />
+<div className='form-label'>
+    <label htmlFor='inches'>Height (in)</label>
+    <Select
+        id='inches'
+        className='form-select inches'
+        classNamePrefix="react-select"
+        name='inches'
+        options={inchesOptions}
+        onChange={(option) =>
+            handleInputChange('inches', option.value)
+        }
+        value={inchesOptions.find(
+            (option) => option.value === formData.inches
+        )}
+        required
+    />
+</div>
 
-                    <Select
-                      className='form-select inches'
-                      classNamePrefix="react-select"
-                      name='inches'
-                      options={inchesOptions}
-                      onChange={(option) =>
-                        handleInputChange('inches', option.value)
-                      }
-                      value={inchesOptions.find(
-                        (option) => option.value === formData.inches
-                      )}
-                      required
-                    />
-                  </div>
-                </label>
 
                 <label className='form-label'>
                   Weight (lbs)
