@@ -23,7 +23,7 @@ const Navbar = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('username');
     localStorage.removeItem('user_id');
-    console.log("logged out");
+    // console.log("logged out");
   };
 
   useEffect(() => {

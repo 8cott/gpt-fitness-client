@@ -21,8 +21,8 @@ const LoginForm = ({ setError, closeModal }) => {
         localStorage.setItem('user_id', response.data.user_id);
         localStorage.setItem('access_token', response.data.access_token);
 
-        console.log(`User logged in as: ${response.data.username}`);
-        console.log(`Token: ${response.data.access_token}`);
+        // console.log(`User logged in as: ${response.data.username}`);
+        // console.log(`Token: ${response.data.access_token}`);
 
         closeModal();
       }

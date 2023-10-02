@@ -56,8 +56,8 @@ const SignupForm = ({ setError, closeModal }) => {
         localStorage.setItem('username', username);
         localStorage.setItem('user_id', user_id);
 
-        console.log(`User logged in as: ${username}`);
-        console.log(`Token: ${access_token}`);
+        // console.log(`User logged in as: ${username}`);
+        // console.log(`Token: ${access_token}`);
       }
     } catch (error) {
       setError(

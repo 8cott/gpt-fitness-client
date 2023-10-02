@@ -112,6 +112,8 @@ const UserInputForm = () => {
       ...formData,
     };
 
+    // console.log('Sending Axios request to:', import.meta.env.VITE_API_BASE_URL);
+
     axiosInstance
       .post('/generate_plan', payload, {
         headers: {
@@ -123,21 +125,26 @@ const UserInputForm = () => {
         setWorkoutSummary(response.data.workout_summary);
         setDietPlan(response.data.diet_plan);
         setDietSummary(response.data.diet_summary);
+        // console.log('Response data:', response.data);
 
-        return axiosInstance
-          .put(`/users/${userId}`, formData, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          .then((response) => {
-            console.log('User updated successfully:', response.data.message);
-            setIsLoading(false);
-          })
-          .catch((error) => {
-            console.error('Error updating user:', error);
-            setIsLoading(false);
-          });
+        if (userId) {
+          return axiosInstance
+            .put(`/users/${userId}`, formData, {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .then((response) => {
+              // console.log('User updated successfully:', response.data.message);
+              setIsLoading(false);
+            })
+            .catch((error) => {
+              console.error('Error updating user:', error);
+              setIsLoading(false);
+            });
+        } else {
+          setIsLoading(false);
+        }
       })
       .catch((error) => {
         console.error('Error generating plan:', error);
@@ -156,7 +163,7 @@ const UserInputForm = () => {
                   Sex
                   <Select
                     className='form-select sex'
-                    classNamePrefix="react-select"
+                    classNamePrefix='react-select'
                     name='sex'
                     options={sexOptions}
                     onChange={(option) =>
@@ -173,7 +180,7 @@ const UserInputForm = () => {
                   Age
                   <Select
                     className='form-select age'
-                    classNamePrefix="react-select"
+                    classNamePrefix='react-select'
                     name='age'
                     options={ageOptions}
                     onChange={(option) =>
@@ -185,49 +192,48 @@ const UserInputForm = () => {
                     required
                   />
                 </label>
-                      
+
                 <div className='form-label'>
-    <label htmlFor='feet'>Height (ft)</label>
-    <Select
-        id='feet'
-        className='form-select feet'
-        classNamePrefix="react-select"
-        name='feet'
-        options={feetOptions}
-        onChange={(option) =>
-            handleInputChange('feet', option.value)
-        }
-        value={feetOptions.find(
-            (option) => option.value === formData.feet
-        )}
-        required
-    />
-</div>
+                  <label htmlFor='feet'>Height (ft)</label>
+                  <Select
+                    id='feet'
+                    className='form-select feet'
+                    classNamePrefix='react-select'
+                    name='feet'
+                    options={feetOptions}
+                    onChange={(option) =>
+                      handleInputChange('feet', option.value)
+                    }
+                    value={feetOptions.find(
+                      (option) => option.value === formData.feet
+                    )}
+                    required
+                  />
+                </div>
 
-<div className='form-label'>
-    <label htmlFor='inches'>Height (in)</label>
-    <Select
-        id='inches'
-        className='form-select inches'
-        classNamePrefix="react-select"
-        name='inches'
-        options={inchesOptions}
-        onChange={(option) =>
-            handleInputChange('inches', option.value)
-        }
-        value={inchesOptions.find(
-            (option) => option.value === formData.inches
-        )}
-        required
-    />
-</div>
-
+                <div className='form-label'>
+                  <label htmlFor='inches'>Height (in)</label>
+                  <Select
+                    id='inches'
+                    className='form-select inches'
+                    classNamePrefix='react-select'
+                    name='inches'
+                    options={inchesOptions}
+                    onChange={(option) =>
+                      handleInputChange('inches', option.value)
+                    }
+                    value={inchesOptions.find(
+                      (option) => option.value === formData.inches
+                    )}
+                    required
+                  />
+                </div>
 
                 <label className='form-label'>
                   Weight (lbs)
                   <Select
                     className='form-select weight'
-                    classNamePrefix="react-select"
+                    classNamePrefix='react-select'
                     name='weight'
                     options={weightOptions}
                     onChange={(option) =>
@@ -243,7 +249,7 @@ const UserInputForm = () => {
                   Workout Days Per Week
                   <Select
                     className='form-select days'
-                    classNamePrefix="react-select"
+                    classNamePrefix='react-select'
                     name='days_per_week'
                     options={days_per_weekOptions}
                     onChange={(option) =>
@@ -260,7 +266,7 @@ const UserInputForm = () => {
                   Dietary Restrictions
                   <CreatableSelect
                     className='form-select diet'
-                    classNamePrefix="react-select"
+                    classNamePrefix='react-select'
                     name='dietary_restrictions'
                     options={dietary_restrictionsOptions}
                     onChange={(option) =>
