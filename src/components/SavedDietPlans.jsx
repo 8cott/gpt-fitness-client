@@ -3,7 +3,7 @@ import Select from 'react-select';
 import axiosInstance from './AxiosConfig';
 import { useAuth } from './AuthContext';
 
-const DisplaySavedPlan = () => {
+const SavedDietPlans = () => {
   const { userId } = useAuth();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [plans, setPlans] = useState([]);
@@ -11,7 +11,7 @@ const DisplaySavedPlan = () => {
 
   useEffect(() => {
     axiosInstance
-      .get('/my_plans')
+      .get('/my_diet_plans')
       .then((response) => {
         setPlans(response.data);
         if (response.data.length > 0) {
@@ -20,18 +20,18 @@ const DisplaySavedPlan = () => {
         }
       })
       .catch((error) => {
-        console.error('Error fetching plans:', error);
+        console.error('Error fetching diet plans:', error);
       });
   }, [userId]);
 
   const fetchPlanDetails = (planId) => {
     axiosInstance
-      .get(`/my_plans/${planId}`)
+      .get(`/my_diet_plans/${planId}`)
       .then((response) => {
         setPlanDetails(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching plan details:', error);
+        console.error('Error fetching diet plan details:', error);
       });
   };
 
@@ -53,31 +53,22 @@ const DisplaySavedPlan = () => {
 
   return (
     <div className='saved-plan-container'>
-    <div className='plan-container'>
-      <label className='form-label'>
-        <span className='select-plan-label'>Select Saved Plan</span>
-        <Select
-          className='form-select-saved-plan'
-          classNamePrefix='react-select'
-          value={selectedPlan}
-          onChange={handlePlanChange}
-          options={plans}
-          getOptionLabel={(option) => option.plan_name}
-          getOptionValue={(option) => option.id}
-        />
-      </label>
+      <div className='plan-container'>
+        <label className='form-label'>
+          <span className='select-plan-label'>Select Saved Diet Plan</span>
+          <Select
+            className='form-select-saved-plan'
+            classNamePrefix='react-select'
+            value={selectedPlan}
+            onChange={handlePlanChange}
+            options={plans}
+            getOptionLabel={(option) => option.plan_name}
+            getOptionValue={(option) => option.id}
+          />
+        </label>
       </div>
       <div className='plan-container'>
-      {planDetails && (
-        <>
-          <div className='workout-container'>
-            <h3 className='plan-header'>Workout Summary</h3>
-            <p className='plan-body summary'>{planDetails.workout_summary}</p>
-            <h3 className='plan-header'>Workout Routine</h3>
-            <ul className='plan-body routine'>
-              {formatTextWithDashes(planDetails.workout_routine)}
-            </ul>
-          </div>
+        {planDetails && (
           <div className='diet-container'>
             <h3 className='plan-header'>Diet Summary</h3>
             <p className='plan-body summary'>{planDetails.diet_summary}</p>
@@ -86,11 +77,10 @@ const DisplaySavedPlan = () => {
               {formatTextWithDashes(planDetails.diet_plan)}
             </ul>
           </div>
-        </>
-      )}
-    </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default DisplaySavedPlan;
+export default SavedDietPlans;

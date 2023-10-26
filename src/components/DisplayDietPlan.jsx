@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
 
-const DisplayPlan = ({
-  workoutRoutine,
-  workoutSummary,
-  dietPlan,
-  dietSummary,
-}) => {
+const DisplayDietPlan = ({ dietPlan, dietSummary }) => {
   const { isLoggedIn, userId } = useAuth();
   const [planName, setPlanName] = useState('');
   const [isEnteringName, setIsEnteringName] = useState(false);
@@ -18,7 +13,7 @@ const DisplayPlan = ({
 
   const handleSavePlan = () => {
     if (!isLoggedIn) {
-      alert('Please login to save your plan');
+      alert('Please login to save your diet plan'); 
       return;
     }
 
@@ -29,25 +24,23 @@ const DisplayPlan = ({
 
     const planData = {
       user_id: userId,
-      workout_routine: workoutRoutine,
-      workout_summary: workoutSummary,
       diet_plan: dietPlan,
       diet_summary: dietSummary,
       plan_name: planName,
     };
 
     axiosInstance
-      .post('save_plan', planData, {
+      .post('save_diet_plan', planData, { 
         headers: {
           'Content-Type': 'application/json',
         },
       })
       .then((response) => {
-        alert('Plan saved successfully!');
+        alert('Diet plan saved successfully!');
       })
       .catch((error) => {
-        console.error('Error saving plan:', error);
-        alert('Error saving plan. Please try again.');
+        console.error('Error saving diet plan:', error);
+        alert('Error saving diet plan. Please try again.');
       });
   };
 
@@ -64,21 +57,14 @@ const DisplayPlan = ({
 
   return (
     <div className='plan-container'>
-      <div className='workout-container'>
-        <h3 className='plan-header'>Workout Summary</h3>
-        <p className='plan-body summary'>{workoutSummary}</p>
-
-        <h3 className='plan-header'>Workout Routine</h3>
-        <ul className='plan-body routine'>
-          {formatTextWithDashes(workoutRoutine)}
-        </ul>
-      </div>
       <div className='diet-container'>
         <h3 className='plan-header'>Diet Summary</h3>
         <p className='plan-body summary'>{dietSummary}</p>
 
         <h3 className='plan-header'>Diet Plan</h3>
-        <ul className='plan-body routine'>{formatTextWithDashes(dietPlan)}</ul>
+        <ul className='plan-body routine'>
+          {formatTextWithDashes(dietPlan)}
+        </ul>
       </div>
       {isEnteringName ? (
         <div>
@@ -101,4 +87,4 @@ const DisplayPlan = ({
   );
 };
 
-export default DisplayPlan;
+export default DisplayDietPlan;

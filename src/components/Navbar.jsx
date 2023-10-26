@@ -23,7 +23,6 @@ const Navbar = () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('username');
     localStorage.removeItem('user_id');
-    // console.log("logged out");
   };
 
   useEffect(() => {
@@ -91,8 +90,11 @@ const Navbar = () => {
             </button>
             {showLogoutModal && (
               <div className='modal'>
-                <button className='modal-btn'><Link to="/saved-plans">
-                  Saved Plans</Link>
+                <button className='modal-btn'><Link to="/saved-fitness-plans">
+                  Saved Fitness Plans</Link>
+                </button>
+                <button className='modal-btn'><Link to="/saved-diet-plans">
+                  Saved Diet Plans</Link>
                 </button>
                 <button className='modal-btn' onClick={handleLogout}>
                   Logout

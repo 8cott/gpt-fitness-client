@@ -3,8 +3,10 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
-import DisplayPlan from './DisplayPlan';
-import Loader from './Loader';
+import DisplayFitnessPlan from './DisplayFitnessPlan';
+import DisplayDietPlan from './DisplayDietPlan';
+import LoaderFitness from './LoaderFitness';
+import LoaderDiet from './LoaderDiet';
 
 const UserInputForm = () => {
   const { isLoggedIn, userId } = useAuth();
@@ -13,6 +15,7 @@ const UserInputForm = () => {
   const [dietPlan, setDietPlan] = useState('');
   const [dietSummary, setDietSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [loaderType, setLoaderType] = useState(null);
 
   const defaultFormState = {
     sex: '',
@@ -104,54 +107,88 @@ const UserInputForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+  };
 
+  const updateUserData = () => {
+    return new Promise((resolve, reject) => {
+      if (!userId) {
+        resolve();
+        return;
+      }
+
+      axiosInstance
+        .put(`/users/${userId}`, formData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((response) => {
+          resolve(response.data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  };
+
+  const handleGenerateFitnessPlan = (event) => {
+    event.preventDefault();
     setIsLoading(true);
+    setLoaderType('fitness'); 
+
+    setDietPlan('');
+    setDietSummary('');
 
     const payload = {
       user_id: userId,
       ...formData,
     };
 
-    // console.log('Sending Axios request to:', import.meta.env.VITE_API_BASE_URL);
-
-    axiosInstance
-      .post('/generate_plan', payload, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    updateUserData()
+      .then(() => {
+        return axiosInstance.post('/generate_fitness_plan', payload);
       })
       .then((response) => {
         setWorkoutRoutine(response.data.workout_routine);
         setWorkoutSummary(response.data.workout_summary);
-        setDietPlan(response.data.diet_plan);
-        setDietSummary(response.data.diet_summary);
-        // console.log('Response data:', response.data);
-
-        if (userId) {
-          return axiosInstance
-            .put(`/users/${userId}`, formData, {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            })
-            .then((response) => {
-              // console.log('User updated successfully:', response.data.message);
-              setIsLoading(false);
-            })
-            .catch((error) => {
-              console.error('Error updating user:', error);
-              setIsLoading(false);
-            });
-        } else {
-          setIsLoading(false);
-        }
+        setIsLoading(false);
+        setLoaderType(null);
       })
       .catch((error) => {
-        console.error('Error generating plan:', error);
+        console.error('Error:', error);
         setIsLoading(false);
       });
   };
 
+  const handleGenerateDietPlan = (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setLoaderType('diet');
+
+    setWorkoutRoutine('');
+    setWorkoutSummary('');
+
+    const payload = {
+      user_id: userId,
+      ...formData,
+    };
+
+    updateUserData()
+      .then(() => {
+        return axiosInstance.post('/generate_diet_plan', payload);
+      })
+      .then((response) => {
+        setDietPlan(response.data.diet_plan);
+        setDietSummary(response.data.diet_summary);
+        setIsLoading(false);
+        setLoaderType(null);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setIsLoading(false);
+      });
+      
+  };
   return (
     <>
       <div className='form-container'>
@@ -292,28 +329,37 @@ const UserInputForm = () => {
               </label>
             </div>
           </fieldset>
-          <button className='form-btn generate-btn' type='submit'>
-            Submit
+          <button
+            className='form-btn generate-btn'
+            onClick={handleGenerateFitnessPlan}
+          >
+            Generate Fitness Plan
+          </button>
+          <button
+            className='form-btn generate-btn'
+            onClick={handleGenerateDietPlan}
+          >
+            Generate Diet Plan
           </button>
         </form>
       </div>
 
       {isLoading ? (
         <div className='loader-container'>
-          <Loader />
+          {loaderType === 'fitness' ? <LoaderFitness /> : <LoaderDiet />}
         </div>
       ) : (
-        workoutRoutine &&
-        workoutSummary &&
-        dietPlan &&
-        dietSummary && (
-          <DisplayPlan
-            workoutRoutine={workoutRoutine}
-            workoutSummary={workoutSummary}
-            dietPlan={dietPlan}
-            dietSummary={dietSummary}
-          />
-        )
+        <>
+          {workoutRoutine && workoutSummary && (
+            <DisplayFitnessPlan
+              workoutRoutine={workoutRoutine}
+              workoutSummary={workoutSummary}
+            />
+          )}
+          {dietPlan && dietSummary && (
+            <DisplayDietPlan dietPlan={dietPlan} dietSummary={dietSummary} />
+          )}
+        </>
       )}
     </>
   );

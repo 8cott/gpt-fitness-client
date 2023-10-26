@@ -13,8 +13,6 @@ axiosInstance.interceptors.request.use(
 
     config.headers['Content-Type'] = 'application/json';
 
-    // console.log('Request config:', config);
-
     return config;
   },
   (error) => {

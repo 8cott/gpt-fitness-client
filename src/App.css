@@ -109,8 +109,8 @@ input[type='password'] {
 }
 
 .generate-btn {
-  padding: 0.5rem 0 0.5rem 0;
-  width: 15%;
+  padding: 0.5rem;
+  width: 28%;
   margin: 0 auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -149,7 +149,7 @@ input[type='password'] {
 }
 .save-plan-btn:focus,
 .save-plan-btn:focus-visible {
-  outline-color: var(--gunmetal); 
+  outline-color: var(--gunmetal);
 }
 
 .error-message {
@@ -171,7 +171,7 @@ input[type='password'] {
 
 .react-select__option--is-focused {
   background-color: var(--aquamarine) !important;
-  color: var(--gunmetal)
+  color: var(--gunmetal);
 }
 
 .react-select__control--is-focused {
@@ -293,7 +293,8 @@ input[type='password'] {
   text-align: center;
 }
 
-.summary, .routine {
+.summary,
+.routine {
   padding-bottom: 2rem;
 }
 
@@ -305,8 +306,17 @@ input[type='password'] {
   padding-top: 2rem;
 }
 
+.loader-inner-container {
+  text-align: center; 
+}
+
 .loader {
   font-size: xx-large;
+  display: block; 
+}
+
+.vortex-container {
+  margin-top: 1rem; 
 }
 
 .select-plan-label {
