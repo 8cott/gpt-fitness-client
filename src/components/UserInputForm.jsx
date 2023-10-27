@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { useAuth } from './AuthContext';
@@ -16,6 +16,7 @@ const UserInputForm = () => {
   const [dietSummary, setDietSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loaderType, setLoaderType] = useState(null);
+  const displayRef = useRef(null);
 
   const defaultFormState = {
     sex: '',
@@ -131,6 +132,12 @@ const UserInputForm = () => {
     });
   };
 
+  const scrollToDisplay = () => {
+    if (displayRef.current) {
+      displayRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleGenerateFitnessPlan = (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -153,6 +160,7 @@ const UserInputForm = () => {
         setWorkoutSummary(response.data.workout_summary);
         setIsLoading(false);
         setLoaderType(null);
+        scrollToDisplay();
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -164,6 +172,7 @@ const UserInputForm = () => {
     event.preventDefault();
     setIsLoading(true);
     setLoaderType('diet');
+    scrollToDisplay();
 
     setWorkoutRoutine('');
     setWorkoutSummary('');
@@ -345,7 +354,7 @@ const UserInputForm = () => {
           </div>
         </form>
       </div>
-
+    <div ref={displayRef}>
       {isLoading ? (
         <div className='loader-container'>
           {loaderType === 'fitness' ? <LoaderFitness /> : <LoaderDiet />}
@@ -363,6 +372,7 @@ const UserInputForm = () => {
           )}
         </>
       )}
+      </div>
     </>
   );
 };
