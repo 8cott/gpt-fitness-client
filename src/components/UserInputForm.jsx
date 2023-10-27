@@ -329,6 +329,7 @@ const UserInputForm = () => {
               </label>
             </div>
           </fieldset>
+          <div className="btn-container"> 
           <button
             className='form-btn generate-btn'
             onClick={handleGenerateFitnessPlan}
@@ -341,6 +342,7 @@ const UserInputForm = () => {
           >
             Generate Diet Plan
           </button>
+          </div>
         </form>
       </div>
 
