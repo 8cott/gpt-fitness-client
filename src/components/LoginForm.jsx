@@ -21,9 +21,6 @@ const LoginForm = ({ setError, closeModal }) => {
         localStorage.setItem('user_id', response.data.user_id);
         localStorage.setItem('access_token', response.data.access_token);
 
-        // console.log(`User logged in as: ${response.data.username}`);
-        // console.log(`Token: ${response.data.access_token}`);
-
         closeModal();
       }
     } catch (error) {
@@ -43,7 +40,9 @@ const LoginForm = ({ setError, closeModal }) => {
           placeholder='Password'
           required
         />
+        <div className='btn-container'>
         <button type='submit' className='modal-btn'>Login</button>
+      </div>
       </form>
     </>
   );

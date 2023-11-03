@@ -84,10 +84,12 @@ const SignupForm = ({ setError, closeModal }) => {
           placeholder='Confirm Password'
           required
         />
+        <div className='btn-container'>
         <button type='submit' className='modal-btn'>
           Signup
         </button>
-      </form>
+        </div>
+        </form>
     </>
   );
 };
