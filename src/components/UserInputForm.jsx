@@ -16,7 +16,8 @@ const UserInputForm = () => {
   const [dietSummary, setDietSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loaderType, setLoaderType] = useState(null);
-  const displayRef = useRef(null);
+  const loaderFitnessRef = useRef(null);
+  const loaderDietRef = useRef(null);
 
   const defaultFormState = {
     sex: '',
@@ -133,18 +134,20 @@ const UserInputForm = () => {
   };
 
   const scrollToDisplay = () => {
-    if (displayRef.current) {
-      displayRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (loaderType === 'fitness' && loaderFitnessRef.current) {
+      loaderFitnessRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else if (loaderType === 'diet' && loaderDietRef.current) {
+      loaderDietRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handleGenerateFitnessPlan = (event) => {
     event.preventDefault();
     setIsLoading(true);
-    setLoaderType('fitness'); 
-
+    setLoaderType('fitness');
     setDietPlan('');
     setDietSummary('');
+    scrollToDisplay();
 
     const payload = {
       user_id: userId,
@@ -172,7 +175,6 @@ const UserInputForm = () => {
     event.preventDefault();
     setIsLoading(true);
     setLoaderType('diet');
-    scrollToDisplay();
 
     setWorkoutRoutine('');
     setWorkoutSummary('');
@@ -196,7 +198,6 @@ const UserInputForm = () => {
         console.error('Error:', error);
         setIsLoading(false);
       });
-      
   };
   return (
     <>
@@ -338,40 +339,40 @@ const UserInputForm = () => {
               </label>
             </div>
           </fieldset>
-          <div className="btn-container"> 
-          <button
-            className='form-btn generate-btn'
-            onClick={handleGenerateFitnessPlan}
-          >
-            Generate Fitness Plan
-          </button>
-          <button
-            className='form-btn generate-btn'
-            onClick={handleGenerateDietPlan}
-          >
-            Generate Diet Plan
-          </button>
+          <div className='btn-container'>
+            <button
+              className='form-btn generate-btn'
+              onClick={handleGenerateFitnessPlan}
+            >
+              Generate Fitness Plan
+            </button>
+            <button
+              className='form-btn generate-btn'
+              onClick={handleGenerateDietPlan}
+            >
+              Generate Diet Plan
+            </button>
           </div>
         </form>
       </div>
-    <div ref={displayRef}>
-      {isLoading ? (
-        <div className='loader-container'>
-          {loaderType === 'fitness' ? <LoaderFitness /> : <LoaderDiet />}
-        </div>
-      ) : (
-        <>
-          {workoutRoutine && workoutSummary && (
-            <DisplayFitnessPlan
-              workoutRoutine={workoutRoutine}
-              workoutSummary={workoutSummary}
-            />
-          )}
-          {dietPlan && dietSummary && (
-            <DisplayDietPlan dietPlan={dietPlan} dietSummary={dietSummary} />
-          )}
-        </>
-      )}
+      <div>
+        {isLoading ? (
+          <div className='loader-container'>
+            {loaderType === 'fitness' ? <LoaderFitness /> : <LoaderDiet />}
+          </div>
+        ) : (
+          <>
+            {workoutRoutine && workoutSummary && (
+              <DisplayFitnessPlan
+                workoutRoutine={workoutRoutine}
+                workoutSummary={workoutSummary}
+              />
+            )}
+            {dietPlan && dietSummary && (
+              <DisplayDietPlan dietPlan={dietPlan} dietSummary={dietSummary} />
+            )}
+          </>
+        )}
       </div>
     </>
   );
