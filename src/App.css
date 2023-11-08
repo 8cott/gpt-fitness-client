@@ -139,16 +139,20 @@ input[type='password'] {
 }
 
 .save-plan-btn {
-  padding: 0.5rem 0 0.5rem 0;
-  width: 15%;
-  margin: 0 auto;
-  margin-top: 1rem;
+  padding: 0.5rem;
+  width: 12.5rem;
+  height: 3rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
   box-sizing: border-box;
   display: block;
   background-color: var(--gunmetal);
   color: var(--aquamarine);
   border: 0.0625rem solid var(--aquamarine);
+  text-align: center;
+  line-height: 1.5;
 }
 .save-plan-btn:hover {
   background-color: var(--aquamarine);

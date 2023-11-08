@@ -30,20 +30,19 @@ const DisplayFitnessPlan = ({ workoutRoutine, workoutSummary }) => {
     };
 
     axiosInstance
-      .post('save_fitness_plan', planData, {   
+      .post('save_fitness_plan', planData, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
       .then((response) => {
-        alert('Fitness plan saved successfully!');   
+        alert('Fitness plan saved successfully!');
       })
       .catch((error) => {
-        console.error('Error saving fitness plan:', error);   
+        console.error('Error saving fitness plan:', error);
         alert('Error saving fitness plan. Please try again.');
       });
   };
-
 
   const formatTextWithDashes = (text) => {
     const lines = text.split('\n');
@@ -70,19 +69,23 @@ const DisplayFitnessPlan = ({ workoutRoutine, workoutSummary }) => {
       {isEnteringName ? (
         <div>
           <input
-            type="text"
-            placeholder="Enter Plan Name"
+            type='text'
+            placeholder='Enter Plan Name'
             value={planName}
             onChange={(e) => setPlanName(e.target.value)}
           />
-          <button className='save-plan-btn' onClick={handleSavePlan}>
+          <div className='btn-container'>
+            <button className='save-plan-btn' onClick={handleSavePlan}>
+              Save Plan
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className='btn-container'>
+          <button className='save-plan-btn' onClick={handleEnterName}>
             Save Plan
           </button>
         </div>
-      ) : (
-        <button className='save-plan-btn' onClick={handleEnterName}>
-          Save Plan
-        </button>
       )}
     </div>
   );

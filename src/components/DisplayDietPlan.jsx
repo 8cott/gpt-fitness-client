@@ -74,14 +74,18 @@ const DisplayDietPlan = ({ dietPlan, dietSummary }) => {
             value={planName}
             onChange={(e) => setPlanName(e.target.value)}
           />
+          <div className='btn-container'>
           <button className='save-plan-btn' onClick={handleSavePlan}>
             Save Plan
           </button>
+          </div>
         </div>
       ) : (
+        <div className='btn-container'>
         <button className='save-plan-btn' onClick={handleEnterName}>
           Save Plan
         </button>
+        </div>
       )}
     </div>
   );
