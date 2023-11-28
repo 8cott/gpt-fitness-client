@@ -120,7 +120,9 @@ input[type='password'] {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   box-sizing: border-box;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--aquamarine);
   color: var(--gunmetal);
   border: 0.0625rem solid var(--gunmetal);
@@ -136,6 +138,20 @@ input[type='password'] {
 .generate-btn:focus,
 .generate-btn:focus-visible {
   border-color: var(--aquamarine);
+}
+
+.button-spinner {
+  border: 2px solid var(--gunmetal);
+  border-top: 2px solid var(--teal);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .save-plan-btn {
@@ -308,23 +324,6 @@ input[type='password'] {
 .summary,
 .routine {
   padding-bottom: 2rem;
-}
-
-.loader-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding-top: 2rem;
-}
-
-.loader-inner-container {
-  text-align: center; 
-}
-
-.loader {
-  font-size: xx-large;
-  display: block; 
 }
 
 .vortex-container {

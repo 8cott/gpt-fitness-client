@@ -1,12 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
 import DisplayFitnessPlan from './DisplayFitnessPlan';
 import DisplayDietPlan from './DisplayDietPlan';
-import LoaderFitness from './LoaderFitness';
-import LoaderDiet from './LoaderDiet';
 
 const UserInputForm = () => {
   const { isLoggedIn, userId } = useAuth();
@@ -16,7 +14,6 @@ const UserInputForm = () => {
   const [dietSummary, setDietSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loaderType, setLoaderType] = useState(null);
-  const displayRef = useRef(null);
 
   const defaultFormState = {
     sex: '',
@@ -34,6 +31,11 @@ const UserInputForm = () => {
   const handleInputChange = (name, value) => {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
+
+  useEffect(() => {
+    console.log('Diet Plan State Updated:', dietPlan);
+    console.log('Diet Summary State Updated:', dietSummary);
+  }, [dietPlan, dietSummary]);
 
   useEffect(() => {
     if (isLoggedIn && userId) {
@@ -132,16 +134,10 @@ const UserInputForm = () => {
     });
   };
 
-  const scrollToDisplay = () => {
-    if (displayRef.current) {
-      displayRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   const handleGenerateFitnessPlan = (event) => {
     event.preventDefault();
     setIsLoading(true);
-    setLoaderType('fitness'); 
+    setLoaderType('fitness');
 
     setDietPlan('');
     setDietSummary('');
@@ -151,19 +147,20 @@ const UserInputForm = () => {
       ...formData,
     };
 
+    console.log('Sending fitness plan request with payload:', payload);
     updateUserData()
       .then(() => {
         return axiosInstance.post('/generate_fitness_plan', payload);
       })
       .then((response) => {
+        console.log('Received fitness plan response:', response);
         setWorkoutRoutine(response.data.workout_routine);
         setWorkoutSummary(response.data.workout_summary);
         setIsLoading(false);
         setLoaderType(null);
-        scrollToDisplay();
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error('Error generating fitness plan:', error);
         setIsLoading(false);
       });
   };
@@ -172,7 +169,6 @@ const UserInputForm = () => {
     event.preventDefault();
     setIsLoading(true);
     setLoaderType('diet');
-    scrollToDisplay();
 
     setWorkoutRoutine('');
     setWorkoutSummary('');
@@ -182,21 +178,22 @@ const UserInputForm = () => {
       ...formData,
     };
 
+    console.log('Sending diet plan request with payload:', payload);
     updateUserData()
       .then(() => {
         return axiosInstance.post('/generate_diet_plan', payload);
       })
       .then((response) => {
+        console.log('Received diet plan response:', response);
         setDietPlan(response.data.diet_plan);
         setDietSummary(response.data.diet_summary);
         setIsLoading(false);
         setLoaderType(null);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error('Error generating diet plan:', error);
         setIsLoading(false);
       });
-      
   };
   return (
     <>
@@ -338,41 +335,56 @@ const UserInputForm = () => {
               </label>
             </div>
           </fieldset>
-          <div className="btn-container"> 
-          <button
-            className='form-btn generate-btn'
-            onClick={handleGenerateFitnessPlan}
-          >
-            Generate Fitness Plan
-          </button>
-          <button
-            className='form-btn generate-btn'
-            onClick={handleGenerateDietPlan}
-          >
-            Generate Diet Plan
-          </button>
+          <div className='btn-container'>
+            <button
+              className='form-btn generate-btn'
+              onClick={handleGenerateFitnessPlan}
+              disabled={isLoading}
+            >
+              {isLoading && loaderType === 'fitness' ? (
+                <>
+                  <span>Generating</span>
+                  <div
+                    className='button-spinner'
+                    style={{ marginLeft: '8px' }}
+                  ></div>
+                </>
+              ) : (
+                'Generate Fitness Plan'
+              )}
+            </button>
+            <button
+              className='form-btn generate-btn'
+              onClick={handleGenerateDietPlan}
+              disabled={isLoading}
+            >
+              {isLoading && loaderType === 'diet' ? (
+                <>
+                  <span>Generating</span>
+                  <div
+                    className='button-spinner'
+                    style={{ marginLeft: '8px' }}
+                  ></div>
+                </>
+              ) : (
+                'Generate Diet Plan'
+              )}
+            </button>
           </div>
         </form>
       </div>
-    <div ref={displayRef}>
-      {isLoading ? (
-        <div className='loader-container'>
-          {loaderType === 'fitness' ? <LoaderFitness /> : <LoaderDiet />}
-        </div>
-      ) : (
-        <>
-          {workoutRoutine && workoutSummary && (
-            <DisplayFitnessPlan
-              workoutRoutine={workoutRoutine}
-              workoutSummary={workoutSummary}
-            />
-          )}
-          {dietPlan && dietSummary && (
-            <DisplayDietPlan dietPlan={dietPlan} dietSummary={dietSummary} />
-          )}
-        </>
-      )}
-      </div>
+
+      <>
+        {workoutRoutine && workoutSummary && (
+          <DisplayFitnessPlan
+            workoutRoutine={workoutRoutine}
+            workoutSummary={workoutSummary}
+          />
+        )}
+        {dietPlan && dietSummary && (
+          <DisplayDietPlan dietPlan={dietPlan} dietSummary={dietSummary} />
+        )}
+      </>
     </>
   );
 };
