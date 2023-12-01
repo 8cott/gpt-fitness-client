@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { useAuth } from './AuthContext';
@@ -14,6 +14,8 @@ const UserInputForm = () => {
   const [dietSummary, setDietSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loaderType, setLoaderType] = useState(null);
+  const fitnessPlanRef = useRef(null);
+  const dietPlanRef = useRef(null);
 
   const defaultFormState = {
     sex: '',
@@ -160,9 +162,11 @@ const UserInputForm = () => {
         setLoaderType(null);
 
         if (window.innerWidth < 499) {
-          const planSection = document.getElementById('planSection');
-          if (planSection) {
-            planSection.scrollIntoView({ behavior: 'smooth' });
+          if (fitnessPlanRef.current) {
+            window.scrollTo({
+              top: fitnessPlanRef.current.offsetTop,
+              behavior: 'smooth',
+            });
           }
         }
       })
@@ -196,11 +200,13 @@ const UserInputForm = () => {
         setDietSummary(response.data.diet_summary);
         setIsLoading(false);
         setLoaderType(null);
-    
+
       if (window.innerWidth < 499) {
-      const planSection = document.getElementById('planSection');
-        if (planSection) {
-          planSection.scrollIntoView({ behavior: 'smooth' });
+        if (dietPlanRef.current) {
+          window.scrollTo({
+            top: dietPlanRef.current.offsetTop,
+            behavior: 'smooth',
+          });
         }
       }
     })
@@ -209,6 +215,7 @@ const UserInputForm = () => {
         setIsLoading(false);
       });
   };
+  
   return (
     <>
       <div className='form-container'>
@@ -394,20 +401,20 @@ const UserInputForm = () => {
           </div>
         )}
 
-        <div id='display-plan-section'>
-          {workoutRoutine && workoutSummary && (
-            <DisplayFitnessPlan
-              workoutRoutine={workoutRoutine}
-              workoutSummary={workoutSummary}
-            />
-          )}
-          {dietPlan && dietSummary && (
-            <DisplayDietPlan
-              dietPlan={dietPlan}
-              dietSummary={dietSummary}
-            />
-          )}
-        </div>
+        {workoutRoutine && workoutSummary && (
+          <DisplayFitnessPlan
+            workoutRoutine={workoutRoutine}
+            workoutSummary={workoutSummary}
+            ref={fitnessPlanRef}
+          />
+        )}
+        {dietPlan && dietSummary && (
+          <DisplayDietPlan
+            dietPlan={dietPlan}
+            dietSummary={dietSummary}
+            ref={dietPlanRef}
+          />
+        )}
       </>
     </>
   );
