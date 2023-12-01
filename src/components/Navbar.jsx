@@ -63,7 +63,7 @@ const Navbar = () => {
   return (
     <div className='navbar'>
       <div className='navbar-left'>
-        <img className='logo' src='public/logo.png' /> 
+        <img className='logo' src='https://gpt-fitness-chi.vercel.app/public/logo.png' /> 
         <Link to="/" className='gpt-fitness'>GPT Fitness</Link></div>
       <div className='navbar-right'>
         {!isLoggedIn ? (
