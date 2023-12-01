@@ -5,6 +5,7 @@ import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
 import DisplayFitnessPlan from './DisplayFitnessPlan';
 import DisplayDietPlan from './DisplayDietPlan';
+import GPTFimage from '../../public/GPTFitness.jpg';
 
 const UserInputForm = () => {
   const { isLoggedIn, userId } = useAuth();
@@ -373,8 +374,13 @@ const UserInputForm = () => {
           </div>
         </form>
       </div>
-
       <>
+        {!workoutRoutine && !dietPlan && (
+          <div className='image-container'>
+            <img src={GPTFimage} alt='GPTF Image' />
+          </div>
+        )}
+
         {workoutRoutine && workoutSummary && (
           <DisplayFitnessPlan
             workoutRoutine={workoutRoutine}

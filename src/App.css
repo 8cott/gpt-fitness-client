@@ -221,7 +221,7 @@ input[type='password'] {
 }
 
 .form-container {
-  max-width: 80%;
+  max-width: 70rem;
   margin: 0 auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -232,6 +232,7 @@ input[type='password'] {
   font-family: 'Open Sans', sans-serif;
   border: 1px solid var(--gunmetal);
   border-radius: 1rem;
+  background-color: var(--white-smoke);
 }
 
 .form-fieldset {
@@ -314,6 +315,19 @@ input[type='password'] {
   margin-top: 1rem;
 }
 
+.image-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100%;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto; 
+  width: auto; 
+}
+
 .plan-container {
   display: flex;
   flex-direction: column;
@@ -322,6 +336,7 @@ input[type='password'] {
   border: 1px solid var(--gunmetal);
   border-radius: 1rem;
   padding: 1.5rem;
+  background-color: var(--white-smoke);
 }
 
 .plan-header {
