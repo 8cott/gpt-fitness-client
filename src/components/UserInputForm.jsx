@@ -376,7 +376,7 @@ const UserInputForm = () => {
       <>
         {!workoutRoutine && !dietPlan && (
           <div className='image-container'>
-            <img src='/GPTFitness.jpg' alt='GPT Fitness' />
+            <img src='/gptfitness.jpg' alt='GPT Fitness' />
           </div>
         )}
 
