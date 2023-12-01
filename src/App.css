@@ -16,6 +16,8 @@
 }
 
 .navbar-left {
+  display: flex;
+  align-items: center;
   font-size: 2rem;
   flex: 4;
 }
@@ -32,6 +34,11 @@
 .gpt-fitness {
   font-weight: 700;
   -webkit-text-stroke: 1px var(--aquamarine);
+}
+
+.logo {
+  max-height: 2rem;
+  margin-right: 0.5rem;
 }
 
 .navbar-right {
