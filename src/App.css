@@ -381,3 +381,14 @@ input[type='password'] {
     gap: 0.2rem;
   }
 }
+
+@media only screen and (max-width: 499px) {
+  .fitness-btn {
+    margin-top: -8px;
+  }
+  
+  .diet-btn {
+    margin-top: -20px;
+    margin-bottom: 10px;
+  }
+}

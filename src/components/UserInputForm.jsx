@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { useAuth } from './AuthContext';
@@ -14,6 +14,8 @@ const UserInputForm = () => {
   const [dietSummary, setDietSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loaderType, setLoaderType] = useState(null);
+  const fitnessPlanRef = useRef(null);
+  const dietPlanRef = useRef(null);
 
   const defaultFormState = {
     sex: '',
@@ -158,6 +160,23 @@ const UserInputForm = () => {
         setWorkoutSummary(response.data.workout_summary);
         setIsLoading(false);
         setLoaderType(null);
+
+        if (window.innerWidth < 499) {
+          if (fitnessPlanRef.current) {
+            window.scrollTo({
+              top: fitnessPlanRef.current.offsetTop,
+              behavior: 'smooth',
+            });
+          }
+        }
+        if (window.innerWidth < 499) {
+          if (dietPlanRef.current) {
+            window.scrollTo({
+              top: dietPlanRef.current.offsetTop,
+              behavior: 'smooth',
+            });
+          }
+        }
       })
       .catch((error) => {
         console.error('Error generating fitness plan:', error);
@@ -337,7 +356,7 @@ const UserInputForm = () => {
           </fieldset>
           <div className='btn-container'>
             <button
-              className='form-btn generate-btn'
+              className='form-btn generate-btn fitness-btn'
               onClick={handleGenerateFitnessPlan}
               disabled={isLoading}
             >
@@ -354,7 +373,7 @@ const UserInputForm = () => {
               )}
             </button>
             <button
-              className='form-btn generate-btn'
+              className='form-btn generate-btn diet-btn'
               onClick={handleGenerateDietPlan}
               disabled={isLoading}
             >
@@ -384,10 +403,15 @@ const UserInputForm = () => {
           <DisplayFitnessPlan
             workoutRoutine={workoutRoutine}
             workoutSummary={workoutSummary}
+            ref={fitnessPlanRef}
           />
         )}
         {dietPlan && dietSummary && (
-          <DisplayDietPlan dietPlan={dietPlan} dietSummary={dietSummary} />
+          <DisplayDietPlan
+            dietPlan={dietPlan}
+            dietSummary={dietSummary}
+            ref={dietPlanRef}
+          />
         )}
       </>
     </>
