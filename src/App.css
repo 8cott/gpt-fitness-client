@@ -221,13 +221,13 @@ input[type='password'] {
 }
 
 .form-container {
-  max-width: 70rem;
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
   margin: 0 auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding-top: 1rem;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   font-family: 'Open Sans', sans-serif;
   border: 1px solid var(--gunmetal);
@@ -331,8 +331,8 @@ input[type='password'] {
 .plan-container {
   display: flex;
   flex-direction: column;
-  margin: 1.5rem auto;
   max-width: 80%;
+  margin: 1.5rem auto;
   border: 1px solid var(--gunmetal);
   border-radius: 1rem;
   padding: 1.5rem;

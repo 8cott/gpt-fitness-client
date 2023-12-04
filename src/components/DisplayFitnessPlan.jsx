@@ -3,6 +3,7 @@ import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
 
 const DisplayFitnessPlan = ({ workoutRoutine, workoutSummary }) => {
+  // console.log('DisplayFitnessPlan Props', { workoutPlan, workoutSummary })
   const { isLoggedIn, userId } = useAuth();
   const [planName, setPlanName] = useState('');
   const [isEnteringName, setIsEnteringName] = useState(false);

@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import { useAuth } from './AuthContext';
 import axiosInstance from './AxiosConfig';
 import DisplayFitnessPlan from './DisplayFitnessPlan';
 import DisplayDietPlan from './DisplayDietPlan';
+import { toast } from 'react-toastify';
 
 const UserInputForm = () => {
   const { isLoggedIn, userId } = useAuth();
@@ -14,8 +15,6 @@ const UserInputForm = () => {
   const [dietSummary, setDietSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loaderType, setLoaderType] = useState(null);
-  const fitnessPlanRef = useRef(null);
-  const dietPlanRef = useRef(null);
 
   const defaultFormState = {
     sex: '',
@@ -35,8 +34,8 @@ const UserInputForm = () => {
   };
 
   useEffect(() => {
-    console.log('Diet Plan State Updated:', dietPlan);
-    console.log('Diet Summary State Updated:', dietSummary);
+    // console.log('Diet Plan State Updated:', dietPlan);
+    // console.log('Diet Summary State Updated:', dietSummary);
   }, [dietPlan, dietSummary]);
 
   useEffect(() => {
@@ -149,26 +148,25 @@ const UserInputForm = () => {
       ...formData,
     };
 
-    console.log('Sending fitness plan request with payload:', payload);
+    // console.log('Sending fitness plan request with payload:', payload);
     updateUserData()
       .then(() => {
         return axiosInstance.post('/generate_fitness_plan', payload);
       })
       .then((response) => {
-        console.log('Received fitness plan response:', response);
+        if (!response.data.workout_routine || !response.data.workout_summary) {
+          toast.error(
+            'OpenAI Error. Failed to load fitness plan. Please try again.'
+          );
+        } else {
+        // console.log('Received fitness plan response:', response);
         setWorkoutRoutine(response.data.workout_routine);
         setWorkoutSummary(response.data.workout_summary);
+        // console.log('Updated Workout Routine State:', workoutRoutine);
+        // console.log('Updated Workout Summary State:', workoutSummary);
+        }
         setIsLoading(false);
         setLoaderType(null);
-
-        if (window.innerWidth < 499) {
-          if (fitnessPlanRef.current) {
-            window.scrollTo({
-              top: fitnessPlanRef.current.offsetTop,
-              behavior: 'smooth',
-            });
-          }
-        }
       })
       .catch((error) => {
         console.error('Error generating fitness plan:', error);
@@ -189,33 +187,32 @@ const UserInputForm = () => {
       ...formData,
     };
 
-    console.log('Sending diet plan request with payload:', payload);
+    // console.log('Sending diet plan request with payload:', payload);
     updateUserData()
       .then(() => {
         return axiosInstance.post('/generate_diet_plan', payload);
       })
       .then((response) => {
-        console.log('Received diet plan response:', response);
-        setDietPlan(response.data.diet_plan);
-        setDietSummary(response.data.diet_summary);
+        if (!response.data.diet_plan || !response.data.diet_summary) {
+          toast.error(
+            'OpenAI Error. Failed to load diet plan. Please try again.'
+          );
+        } else {
+          // console.log('Received diet plan response:', response);
+          setDietPlan(response.data.diet_plan);
+          setDietSummary(response.data.diet_summary);
+          // console.log('Updated Diet Plan State:', dietPlan);
+          // console.log('Updated Diet Summary State:', dietSummary);
+        }
         setIsLoading(false);
         setLoaderType(null);
-
-      if (window.innerWidth < 499) {
-        if (dietPlanRef.current) {
-          window.scrollTo({
-            top: dietPlanRef.current.offsetTop,
-            behavior: 'smooth',
-          });
-        }
-      }
-    })
+      })
       .catch((error) => {
         console.error('Error generating diet plan:', error);
         setIsLoading(false);
       });
   };
-  
+
   return (
     <>
       <div className='form-container'>
@@ -405,15 +402,10 @@ const UserInputForm = () => {
           <DisplayFitnessPlan
             workoutRoutine={workoutRoutine}
             workoutSummary={workoutSummary}
-            ref={fitnessPlanRef}
           />
         )}
         {dietPlan && dietSummary && (
-          <DisplayDietPlan
-            dietPlan={dietPlan}
-            dietSummary={dietSummary}
-            ref={dietPlanRef}
-          />
+          <DisplayDietPlan dietPlan={dietPlan} dietSummary={dietSummary} />
         )}
       </>
     </>
