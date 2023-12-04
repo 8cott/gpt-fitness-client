@@ -10,7 +10,7 @@ Future updates will include the ability to print and email plans.
 This application was built using React with Vite.
 
 ## Live Demo
-Check out the live demo of the Real Estate Listings App [here](https://gpt-fitness-chi.vercel.app/).
+Check out the live demo of the Real Estate Listings App [here](https://www.gptfitnessapp.com/).
 
 ## Table of Contents
 - [Technologies Used](#technologies-used)
