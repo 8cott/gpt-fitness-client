@@ -357,6 +357,23 @@ input[type='password'] {
   margin-bottom: 0.5rem;
 }
 
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  background-color: var(--gunmetal);
+  color: var(--white-smoke);
+  border-top: 1px solid var(--dark-blue);
+}
+
+.footer a {
+  color: var(--aquamarine);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
 @media only screen and (max-width: 768px) {
   .form-container {
     max-width: 90%;
